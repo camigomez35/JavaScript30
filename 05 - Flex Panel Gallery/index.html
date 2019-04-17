@@ -14,11 +14,11 @@
       font-size: 20px;
       font-weight: 200;
     }
-    
+
     body {
       margin: 0;
     }
-    
+
     *, *:before, *:after {
       box-sizing: inherit;
     }
@@ -26,6 +26,8 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
+
     }
 
     .panel {
@@ -43,6 +45,11 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -56,6 +63,28 @@
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .panel > *:first-child {
+      transition: all .1s ease-in;
+      transform: scale(0);
+    }
+
+    .panel > *:last-child {
+      transition: all .1s ease-in;
+      transform: scale(0);
+    }
+
+    .panel.open-active  > *:first-child {
+      transform: scale(1);
+    }
+
+    .panel.open-active  > *:last-child {
+      transform: scale(1);
     }
 
     .panel p {
@@ -64,12 +93,13 @@
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
     }
-    
+
     .panel p:nth-child(2) {
       font-size: 4em;
     }
 
     .panel.open {
+      flex: 5;
       font-size: 40px;
     }
 
@@ -105,6 +135,23 @@
   </div>
 
   <script>
+
+    const panels = document.querySelectorAll('.panel');
+
+    function togglePanel() {
+      this.classList.toggle('open');
+    }
+    function toggleActive(e) {
+      if (e.propertyName.includes('flex-grow') ) {
+        this.classList.toggle('open-active');
+      }
+
+    }
+
+    panels.forEach(panel => {
+      panel.addEventListener('click', togglePanel);
+      panel.addEventListener('transitionend', toggleActive);
+    });
 
   </script>
 
